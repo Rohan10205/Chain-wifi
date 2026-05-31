@@ -16,15 +16,24 @@ class SoftApManager(private val wifiManager: WifiManager) {
         wifiManager.startLocalOnlyHotspot(object : WifiManager.LocalOnlyHotspotCallback() {
             override fun onStarted(res: WifiManager.LocalOnlyHotspotReservation) {
                 reservation = res
-                val config: SoftApConfiguration = res.softApConfiguration
-                continuation.resume(
+                val info = if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                    val config: SoftApConfiguration = res.softApConfiguration
                     HotspotInfo(
                         ssid = config.ssid ?: "ChainNet",
                         passphrase = config.passphrase ?: "",
                         band = config.band,
                         bssid = config.bssid?.toString()
                     )
-                )
+                } else {
+                    val config = res.wifiConfiguration
+                    HotspotInfo(
+                        ssid = config?.SSID ?: "ChainNet",
+                        passphrase = config?.preSharedKey ?: "",
+                        band = 0,
+                        bssid = null
+                    )
+                }
+                continuation.resume(info)
             }
 
             override fun onFailed(reason: Int) {

@@ -31,7 +31,7 @@ class ChainNetService : LifecycleService() {
 
         val powerManager = getSystemService(PowerManager::class.java)
         wakeLock = powerManager.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "ChainNet::Service")
-        wakeLock?.acquire(10 * 60 * 1000L)
+        wakeLock?.acquire()
 
         controlPlaneServer.start()
         nsdDiscovery.discoverServices()
