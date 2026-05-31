@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">ChainNet</string>
+    <string name="notification_channel_name">ChainNet Service</string>
+    <string name="notification_channel_description">Foreground service for ChainNet</string>
+</resources>

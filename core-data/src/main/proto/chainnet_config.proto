@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option java_package = "com.chainnet.data.datastore";
+option java_multiple_files = true;
+
+message ChainNetConfig {
+  string node_id = 1;
+  string preferred_role = 2;
+  string last_known_ssid = 3;
+  string last_known_passphrase = 4;
+  bool enable_overlay = 5;
+}
