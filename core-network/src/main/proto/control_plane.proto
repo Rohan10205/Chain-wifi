@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+option java_package = "com.chainnet.network.protocol";
+option java_multiple_files = true;
+
+message NodeIdentity {
+  string node_id = 1;
+  bytes public_key = 2;
+  string display_name = 3;
+}
+
+message NodeCapabilities {
+  bool supports_ap_sta = 1;
+  bool supports_wpa3 = 2;
+  int32 battery_percent = 3;
+  int32 signal_level = 4;
+}
+
+message Hello {
+  NodeIdentity identity = 1;
+  NodeCapabilities capabilities = 2;
+  int32 hop_count = 3;
+}
+
+message NodeLink {
+  string from_node_id = 1;
+  string to_node_id = 2;
+  int32 link_quality = 3;
+}
+
+message TopologyUpdate {
+  repeated NodeLink links = 1;
+}
+
+message RouteRequest {
+  string destination_node_id = 1;
+  string origin_node_id = 2;
+  int32 ttl = 3;
+}
+
+message RouteReply {
+  string destination_node_id = 1;
+  string next_hop_node_id = 2;
+  int32 hop_count = 3;
+}
+
+message Keepalive {
+  int64 timestamp_epoch_millis = 1;
+}
+
+message CredentialShare {
+  string ssid = 1;
+  string passphrase = 2;
+  bytes encrypted_payload = 3;
+}
+
+message Handoff {
+  string from_node_id = 1;
+  string to_node_id = 2;
+  string reason = 3;
+}
